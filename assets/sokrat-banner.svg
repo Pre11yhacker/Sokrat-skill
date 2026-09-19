@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="220" viewBox="0 0 900 220">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#8B5CF6"/>
+      <stop offset="0.55" stop-color="#7C3AED"/>
+      <stop offset="1" stop-color="#4C1D95"/>
+    </linearGradient>
+  </defs>
+  <rect width="900" height="220" rx="24" fill="url(#bg)"/>
+  <circle cx="790" cy="40" r="120" fill="#A78BFA" opacity="0.18"/>
+  <circle cx="70" cy="190" r="100" fill="#C4B5FD" opacity="0.12"/>
+  <text x="450" y="98" font-family="Segoe UI, Arial, sans-serif" font-size="66" font-weight="700" fill="#FFFFFF" text-anchor="middle">Sokrat</text>
+  <text x="450" y="146" font-family="Segoe UI, Arial, sans-serif" font-size="25" fill="#DDD6FE" text-anchor="middle">Спроси сначала — сделай один раз</text>
+  <text x="450" y="182" font-family="Segoe UI, Arial, sans-serif" font-size="16" fill="#C4B5FD" text-anchor="middle">Скилл для AI-агентов · Claude Code / Codex · экономия токенов и правок</text>
+</svg>
