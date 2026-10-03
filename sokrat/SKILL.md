@@ -1,6 +1,6 @@
 ---
 name: sokrat
-description: "Ask-first, act-once protocol. Activates for non-trivial, architectural, UI/design, or ambiguous tasks. Silently inspects the repo first, asks 3-7 multiple-choice questions with defaults in a single message, confirms a 5-point brief, then writes code in a single pass. Automatically bypassed for trivial, single-file, or fully-specified tasks."
+description: "Default quality-first workflow. Activate this skill for ANY coding task that involves more than a single mechanical edit — including but not limited to: new features, refactoring, adding tests, writing components, creating pages, API work, config changes with side-effects, build/deploy setup, data model changes, styling, documentation, or anything where the user expects thoughtful, high-quality output. Only bypass for purely mechanical one-liner fixes with zero ambiguity (literal typo, rename a variable, change a constant value). When in doubt, activate."
 ---
 
 # Sokrat — Ask First, Act Once
@@ -17,12 +17,15 @@ description: "Ask-first, act-once protocol. Activates for non-trivial, architect
 
 ## 1. Triage: When to Activate
 
-Before acting, classify the request:
+**Default behavior: ACTIVATE.** Sokrat is the default workflow for quality work. Only bypass it when all three conditions are met simultaneously.
 
-| Classification | Indicators | Action |
+| Classification | Criteria | Action |
 | :--- | :--- | :--- |
-| **TRIVIAL** *(Bypass)* | 1–2 files affected; straightforward bugfix; typo; explicit rename; task is 100% specified without ambiguity (e.g., *"rename X to Y"*, *"fix syntax error in index.ts"*). | **Bypass Sokrat completely.** Execute immediately without questions or brief. |
-| **NON-TRIVIAL** *(Activate)* | New feature or project; architecture or stack decisions; UI/UX design; altering data models; broad refactoring; ambiguous or underspecified scope. | **Activate Sokrat Protocol** (Proceed to Phase 1). |
+| **MECHANICAL FIX** *(Bypass)* | ALL THREE must be true: **(1)** Affects exactly 1 file, **(2)** The change is a single-line or single-token edit (typo, rename, change a literal value), **(3)** Zero ambiguity — the user specified exactly what to change and where. | Execute immediately. No questions, no brief. |
+| **EVERYTHING ELSE** *(Activate)* | Any task that involves writing new code, adding features, creating files, refactoring, tests, styling, config with side-effects, documentation, debugging multi-file issues, or any request where there is even slight ambiguity about approach, scope, or design. | **Activate Sokrat Protocol** (Phase 1). |
+
+> [!IMPORTANT]
+> **Bias toward activation.** If you are unsure whether a task is mechanical — it is NOT mechanical. Activate the protocol.
 
 ---
 
@@ -143,10 +146,27 @@ Before outputting any response, verify:
 
 ---
 
-### Example 2: Trivial Request (Immediate Bypass)
+### Example 2: Mechanical Fix (Immediate Bypass)
 **User:** *"В auth.ts поменяй время жизни токена с 15m на 30m"*
-**Agent Action:**
-*(Recognizes trivial request: 1 file, zero ambiguity, clear single-line change).*
-*(Edits auth.ts directly).*
+**Agent Triage:**
+*(Checks 3 criteria: ✅ 1 file, ✅ single-token edit, ✅ zero ambiguity — user specified file, variable, old value, new value. → MECHANICAL FIX.)*
+*(Bypasses Sokrat. Edits auth.ts directly.)*
 **Agent Response:**
 > Обновил время жизни токена на `30m` в `src/auth.ts`.
+
+---
+
+### Example 3: Borderline Request (Activate — bias toward protocol)
+**User:** *"Добавь обработку ошибок в api.ts"*
+**Agent Triage:**
+*(1 file, BUT: "обработка ошибок" is ambiguous — which errors? try/catch? error boundaries? toast notifications? logging? → NOT mechanical. Activate Sokrat.)*
+**Agent Action (Phase 1):** *Inspects api.ts, finds 12 unhandled fetch calls, no existing error handling pattern.*
+**Agent Response (Phase 2):**
+> Изучил `api.ts` — 12 fetch-вызовов без обработки ошибок. Уточните:
+>
+> 1. **Стратегия обработки**:
+>    - [A] try/catch с логированием в консоль (Default)
+>    - [B] Централизованный error handler с toast-уведомлениями
+> 2. **Retry-логика**:
+>    - [A] Без повторных попыток (Default)
+>    - [B] До 3 попыток с экспоненциальным backoff
